@@ -33,6 +33,11 @@ public class Item {
 		return id;
 	}
 
+	public Item() {
+		super();
+
+	}
+
 	public Item(String name, int quantity, double price) {
 		super();
 		totalNumberOfProducts++;

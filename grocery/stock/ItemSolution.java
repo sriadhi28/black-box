@@ -1,8 +1,6 @@
 package org.grocery.stock;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,8 +9,32 @@ import org.hibernate.cfg.Configuration;
 public class ItemSolution {
 	public static void main(String[] args) throws IOException {
 		SessionFactory sf = new Configuration().configure().buildSessionFactory();
+		
 		Session session = sf.openSession();
-		int ch, total;
+		Item item = session.get(Item.class, 1);
+		System.out.println(item.getId());
+		System.out.println(item.getName());
+		System.out.println(item.getPrice());
+		System.out.println(item.getQuantity());
+		
+		session.beginTransaction();
+		item.setName("Lux soap");
+		item.setPrice(230);
+		session.update(item);
+		session.getTransaction().commit();
+		
+		Item item1 = session.get(Item.class, 3);
+		System.out.println(item1.getId());
+		System.out.println(item1.getName());
+		System.out.println(item1.getPrice());
+		System.out.println(item1.getQuantity());
+		
+		item1.setId(3);
+		session.delete(item1);	
+		System.out.println("Deleted");
+		session.close();
+		
+		/*int ch, total;
 		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 		while (true) {
 			System.out.println("1.New Entry 2.Total");
@@ -36,6 +58,6 @@ public class ItemSolution {
 				System.out.println("Total:" + total);
 				break;
 			}
-		}
+		}*/
 	}
 }
