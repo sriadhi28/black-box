@@ -1,11 +1,28 @@
 package com.bank;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "BANKACC")
 public class BankAccount {
+	@Id
+	@Column(name = "Account_Number")
 	private long accountNumber;
+	@Column(name = "Account_Holder")
 	private String accountHolder;
+	@Column(name = "Address")
 	private String address;
+	@Column(name = "Phone_Number")
 	private long phoneNumber;
+	@Column(name = "Email_ID")
 	private String emailId;
+	@Column(name = "Balance")
 	protected double balance;
 
 	public BankAccount() {

@@ -1,9 +1,20 @@
 package com.bank;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+@Table(name = "CURRENTACC")
 public class CurrentAccount extends BankAccount {
+	@Column(name = "Min_Amount")
 	private static double minimumAmountCanTransfer = 500000;
+	@Column(name = "Min_Transaction")
 	private static int minimumNumberOfTransactions = 7;
+	@Transient
 	private double amountTransfered;
+	@Column(name = "Number_Of_Trans")
 	private int numberOfTransactionsHeld;
 
 	public CurrentAccount() {
@@ -51,12 +62,30 @@ public class CurrentAccount extends BankAccount {
 
 	@Override
 	public boolean withdraw(double amount) {
-		return super.withdraw(amount);
+		if (numberOfTransactionsHeld >= minimumNumberOfTransactions && amountTransfered <= minimumAmountCanTransfer) {
+			balance -= balance * 0.05;
+			return super.withdraw(amount);
+		} else if (numberOfTransactionsHeld <= minimumNumberOfTransactions
+				&& amountTransfered <= minimumAmountCanTransfer) {
+			return super.withdraw(amount);
+		} else if (amountTransfered > minimumAmountCanTransfer) {
+			System.out.println("Tansfer limit exceeded");
+		}
+		return false;
 	}
 
 	@Override
 	public boolean deposit(double amount) {
-		return super.deposit(amount);
+		if (numberOfTransactionsHeld >= minimumNumberOfTransactions && amountTransfered <= minimumAmountCanTransfer) {
+			balance -= balance * 0.05;
+			return super.deposit(amount);
+		} else if (numberOfTransactionsHeld <= minimumNumberOfTransactions
+				&& amountTransfered <= minimumAmountCanTransfer) {
+			return super.deposit(amount);
+		} else if (amountTransfered > minimumAmountCanTransfer) {
+			System.out.println("Tansfer limit exceeded");
+		}
+		return false;
 	}
 
 }
